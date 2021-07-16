@@ -26,6 +26,10 @@ export async function validateFuncCoreToolsIsLatest(): Promise<void> {
         context.errorHandling.suppressDisplay = true;
         context.telemetry.properties.isActivationEvent = 'true';
 
+        if (process.env.NOTHIN !== 'NOTGONNAHAPEN') {
+            return;
+        }
+
         const showMultiCoreToolsWarningKey: string = 'showMultiCoreToolsWarning';
         const showMultiCoreToolsWarning: boolean = !!getWorkspaceSetting<boolean>(showMultiCoreToolsWarningKey);
 
