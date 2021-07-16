@@ -12,7 +12,9 @@ import { AzExtTreeItem } from 'vscode-azureextensionui';
 import { addBinding, createNewProjectInternal, ext, getRandomHexString, IFunctionBinding, IFunctionJson, ProjectLanguage } from '../extension.bundle';
 import { cleanTestWorkspace, getTestWorkspaceFolder } from './global.test';
 
-suite('Add Binding', () => {
+suite('Add Binding', function (this: Mocha.Suite): void {
+    this.timeout(40 * 1000);
+
     let functionJsonPath: string;
     const functionName: string = 'HttpTriggerTest';
     let initialBindingsCount: number;
@@ -36,6 +38,7 @@ suite('Add Binding', () => {
     });
 
     test('Command Palette', async () => {
+        ext.outputChannel.appendLog('Starting cp test');
         const userInputs: string[] = [functionName];
         // https://github.com/microsoft/vscode-azurefunctions/issues/1586
         if (!await ext.azureAccountTreeItem.getIsLoggedIn()) {

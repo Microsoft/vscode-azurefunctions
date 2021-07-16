@@ -18,7 +18,8 @@ async function main(): Promise<void> {
             extensionTestsPath: path.resolve(repoRoot, 'dist', 'test', 'index'),
             extensionTestsEnv: {
                 DEBUGTELEMETRY: 'v',
-                MOCHA_timeout: '20000'
+                MOCHA_timeout: '20000',
+                MOCHA_grep: 'Add Binding'
             }
         });
     } catch (err) {

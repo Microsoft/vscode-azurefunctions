@@ -59,17 +59,22 @@ export class AzureAccountTreeItemWithProjects extends AzureAccountTreeItemBase {
     }
 
     public async loadMoreChildrenImpl(clearCache: boolean, context: IActionContext): Promise<AzExtTreeItem[]> {
+        ext.outputChannel.appendLog('treePick 0');
         const children: AzExtTreeItem[] = await super.loadMoreChildrenImpl(clearCache, context);
 
+        ext.outputChannel.appendLog('treePick 1');
         let hasLocalProject: boolean = false;
         Disposable.from(...this._projectDisposables).dispose();
         this._projectDisposables = [];
+        ext.outputChannel.appendLog('treePick 2');
 
         const folders: readonly WorkspaceFolder[] = workspace.workspaceFolders || [];
         for (const folder of folders) {
-            const projectPath: string | undefined = await tryGetFunctionProjectRoot(context, folder.uri.fsPath);
+            ext.outputChannel.appendLog('treePick 3');
+            const projectPath: string | undefined = await tryGetFunctionProjectRoot(context, folder);
             if (projectPath) {
                 try {
+                    ext.outputChannel.appendLog('treePick 4');
                     hasLocalProject = true;
 
                     const language: ProjectLanguage | undefined = getWorkspaceSetting(projectLanguageSetting, projectPath);
@@ -89,9 +94,11 @@ export class AzureAccountTreeItemWithProjects extends AzureAccountTreeItemBase {
                             effectiveProjectPath = projectPath;
                         }
 
+                        ext.outputChannel.appendLog('treePick 5');
                         const funcTask: Task | undefined = (await tasks.fetchTasks()).find(t => t.scope === folder && isFuncHostTask(t));
                         const funcPort = await getFuncPortFromTaskOrProject(context, funcTask, projectPath);
 
+                        ext.outputChannel.appendLog('treePick 6');
                         const treeItem: LocalProjectTreeItem = new LocalProjectTreeItem(this, { effectiveProjectPath, folder, language, version, preCompiledProjectPath, isIsolated, funcPort });
                         this._projectDisposables.push(treeItem);
                         children.push(treeItem);
@@ -116,6 +123,7 @@ export class AzureAccountTreeItemWithProjects extends AzureAccountTreeItemBase {
             children.unshift(ti);
         }
 
+        ext.outputChannel.appendLog('treePick 7');
         return children;
     }
 

@@ -52,7 +52,7 @@
             ],
             "preLaunchTask": "${defaultBuildTask}",
             "env": {
-                "MOCHA_grep": "", // RegExp of tests to run (empty for all)
+                "MOCHA_grep": "Add Binding", // RegExp of tests to run (empty for all)
                 "MOCHA_timeout": "0", // Disable time-outs
                 "DEBUGTELEMETRY": "v",
                 "NODE_DEBUG": "",
