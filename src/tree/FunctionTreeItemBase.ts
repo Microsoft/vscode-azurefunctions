@@ -110,7 +110,7 @@ export abstract class FunctionTreeItemBase extends AzExtTreeItem {
     }
 
     private async refreshTriggerUrl(context: IActionContext): Promise<void> {
-        const hostUrl = new url.URL(this.parent.parent.hostUrl);
+        const hostUrl = new url.URL(await this.parent.parent.getHostUrl(context));
         let triggerUrl: url.URL;
         if (this._func?.invokeUrlTemplate) {
             triggerUrl = new url.URL(this._func?.invokeUrlTemplate);
